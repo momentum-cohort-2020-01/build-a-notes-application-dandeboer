@@ -46,5 +46,6 @@ fetch("http://localhost:3000/notes/", {
     body: JSON.stringify(noteText)
 })
     .then(response => response.json())
+    input.value = ""
 })
 
