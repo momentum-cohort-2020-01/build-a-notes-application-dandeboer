@@ -1,4 +1,8 @@
 let notesPage = document.querySelector("#notes-page")
+let form = document.querySelector("#form")
+let titleInput = document.querySelector("#title-input")
+let bodyInput = document.querySelector("#body-input")
+let submit = document.querySelector(".submit")
 
 getNotes()
 
@@ -8,8 +12,6 @@ fetch("http://localhost:3000/notes/")
     .then(function(data) {
         let notesData = data
         for (let noteData of notesData) {
-        console.log(notesData)
-        console.log(noteData)
         createNote()
         let title = document.querySelector(".title")
         let body = document.querySelector(".body")
@@ -22,23 +24,19 @@ function createNote() {
     let div = document.createElement("div")
     let h6 = document.createElement("h6")
     let p = document.createElement("p")
+    let button = document.createElement("button")
     notesPage.insertBefore(div, document.querySelector(".note"))
     div.setAttribute("class", "note")
     div.appendChild(h6)
     h6.setAttribute("class", "title")
     div.appendChild(p)
     p.setAttribute("class", "body")
+    div.appendChild(button)
 }
-
-let form = document.querySelector("#form")
-let input = document.querySelector(".input")
-let submit = document.querySelector(".submit")
-console.log(form)
 
 form.addEventListener("submit", e => {
 e.preventDefault()
-console.log(input.value)
-let noteText = {body: input.value}
+let noteText = {body: bodyInput.value, title: titleInput.value}
 console.log(noteText)
 fetch("http://localhost:3000/notes/", {
     method: "post",
@@ -46,6 +44,7 @@ fetch("http://localhost:3000/notes/", {
     body: JSON.stringify(noteText)
 })
     .then(response => response.json())
-    input.value = ""
+    titleInput.value = ""
+    bodyInput.value = ""
 })
 
